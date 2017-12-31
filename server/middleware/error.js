@@ -65,15 +65,6 @@ function errMiddleware(err, req, res, next) {
 module.exports = errMiddleware
 
 
-
-
-
-
-
-
-
-
-
 //Old Process
 //Used to have this in the root index.js file
   //refactored and created the middleware dir

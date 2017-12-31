@@ -38,7 +38,7 @@ function getTodos(req, res, next) {
         stack: e
       })
     })
-}
+} //end getTodos
 
 function getTodo(req, res, next) {
   var id = req.params.id
@@ -57,9 +57,9 @@ function getTodo(req, res, next) {
         stack: e
       })
     })
-}
+} //end getTodo
 
-function createTodo(req, res) {
+function createTodo(req, res, next) {
   //Do Data Validation
   if (!req.body.title) {
     return next({
@@ -80,51 +80,128 @@ function createTodo(req, res) {
     description: _.trim(req.body.description)
   }
 
+  var todo = new Todo(data)
 
+  todo.save()
+    .then((todo) => {
+      return res.json({
+        data: todo,
+        status: 'ok'
+      })
+    })
+    .catch((e) => {
+      return next({
+        message: e.message,
+        status: e.status,
+        stack: e
+      })
+    })
+} //end createTodo
 
+function updateTodo(req, res, next) {
+  var id = req.params.id
 
+  Todo.get(id)
+    .then((todo) => {
+      //data validation
+      if (!req.body.title && !req.body.description && !req.body.completed && !req.body.removed) {
+        return next({
+          message: 'Title, description, or completed status are required.',
+          status: 400
+        })
+      }
 
+      if (req.body.title) {
+        todo.title = _.trim(req.body.title)
+      }
+      if (req.body.description) {
+        todo.description = _.trim(req.body.description)
+      }
 
-  // var media = new Media(vals)
-  //
-  // media.save().then((doc) => {
-  //   res.send(doc)
-  // }, (e) => {
-  //   console.log(e);
-  //   res.status(500).json({error: e})
-  // })
+      if (req.body.completed == 'true') {
+        todo.completed = true
+      } else {
+        todo.completed = false
+      }
 
+      //unflag removed record - to flag as deleted use DELETE /api/todo/:id
+      if (req.body.removed == 'false') {
+        todo.removed = false
+      }
 
+      todo.save()
+        .then((todo) => {
+          return res.json({
+            data: todo,
+            status: 'ok'
+          })
+        })
+        .catch((e) => {
+          return next({
+            status: 500,
+            message: 'Failed to update todo. Internal server error.',
+            stack: e
+          })
+        })
+    })
+    .catch((e) => {
+      return next({
+        message: e.message,
+        status: e.status,
+        stack: e
+      })
+    })
+} //end updateTodo
 
+function deleteTodo(req, res, next) {
+  var id = req.params.id
 
+  if (req.query.frd == 'true') {
+    //actually remove from the db
 
+    Todo.delete(id)
+      .then((doc) => {
+        res.json({
+          message: `Successfully removed todo ${id}`,
+          status: 'ok'
+        })
+      })
+      .catch((e) => {
+        return next({
+          message: e.message,
+          status: e.status,
+          stack: e
+        })
+      })
+  } else {
+    //find record and flag as removed
+    Todo.get(id)
+      .then((todo) => {
+        todo.removed = true
 
-  // Todo.save(data)
-  //   .then((todo) => {
-  //     return res.json({
-  //       data: todo,
-  //       status: 'ok'
-  //     })
-  //   })
-  //   .catch((e) => {
-  //     return res.status(e.status).json({
-  //       error: e.message,
-  //       status: 'ok'
-  //     })
-  //   })
-
-
-
-
-
-}
-
-function updateTodo(req, res) {
-
-}
-
-function deleteTodo(req, res) {
-
+        todo.save()
+          .then((todo) => {
+            return res.json({
+              data: todo,
+              status: 'ok'
+            })
+          })
+          .catch((e) => {
+            return next({
+              status: 500,
+              message: 'Failed to update todo. Internal server error.',
+              stack: e
+            })
+          })
+      })
+      .catch((e) => {
+        return next({
+          message: e.message,
+          status: e.status,
+          stack: e
+        })
+      })
+  }
 }
 
 module.exports = {

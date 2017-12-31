@@ -83,11 +83,32 @@ TodoSchema.statics = {
         })
       })
   }, //end list
-  save(data) {
-    return 'save'
-  }, //end save
   delete(id) {
-    return 'delete'
+    if (ObjectId.isValid(id)) {
+      return this.findByIdAndRemove(id)
+        .then((todo) => {
+          if (!todo) {
+            return Promise.reject({
+              status: 400,
+              message: 'Todo not found'
+            })
+          }
+
+          return todo
+        })
+        .catch((e) => {
+          return Promise.reject({
+            status: e.status || 500,
+            message: e.message || 'Internal Server Error',
+            stack: e
+          })
+        })
+    } else {
+      return Promise.reject({
+        status: 400,
+        message: 'Invalid ID'
+      })
+    }
   } //end delete
 } //end statics
 
