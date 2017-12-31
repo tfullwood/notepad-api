@@ -1,0 +1,12 @@
+#Dependency Dir
+/node_modules
+
+#Local DB
+/db
+
+#OS generated files
+.DS_Store
+.DS_Store?
+
+#Configs
+config/config.json

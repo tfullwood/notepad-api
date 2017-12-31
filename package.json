@@ -1,0 +1,27 @@
+{
+  "name": "notepad-api",
+  "version": "1.0.0",
+  "description": "A simple CRUD API to keep track of notes.",
+  "main": "index.js",
+  "scripts": {
+    "start": "export NODE_ENV=production && node index.js",
+    "dev": "./node_modules/nodemon/bin/nodemon.js index.js",
+    "test": "export NODE_ENV=test && mocha server/**/*.test.js",
+    "test-watch": "./node_modules/nodemon/bin/nodemon.js --exec 'npm test'",
+    "gen-docs": "./node_modules/.bin/jsdoc $DOC -c config/jsdoc.json -d docs"
+  },
+  "author": "Trevor Fullwood",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "lodash": "^4.17.4",
+    "mongoose": "^5.0.0-rc0"
+  },
+  "devDependencies": {
+    "expect": "^22.0.3",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.14.3",
+    "jsdoc": "^3.5.5"
+  }
+}
