@@ -30,8 +30,10 @@ function errMiddleware(err, req, res, next) {
       })
     })
   } else {
-    console.log('Something wen\'t wrong \n');
-    console.log(err)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Something wen\'t wrong \n');
+      console.log(err)
+    }
 
     var status = err.status || 500
 

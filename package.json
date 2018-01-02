@@ -20,8 +20,9 @@
   },
   "devDependencies": {
     "expect": "^22.0.3",
+    "jsdoc": "^3.5.5",
     "mocha": "^4.0.1",
     "nodemon": "^1.14.3",
-    "jsdoc": "^3.5.5"
+    "supertest": "^3.0.0"
   }
 }
