@@ -13,16 +13,16 @@
   "author": "Trevor Fullwood",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "express": "^4.16.2",
-    "lodash": "^4.17.4",
-    "mongoose": "^5.0.0-rc0"
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.6.6"
   },
   "devDependencies": {
-    "expect": "^22.0.3",
-    "jsdoc": "^3.5.5",
-    "mocha": "^4.0.1",
-    "nodemon": "^1.14.3",
-    "supertest": "^3.0.0"
+    "expect": "^22.4.3",
+    "jsdoc": "^3.6.3",
+    "mocha": "^4.1.0",
+    "nodemon": "^1.19.1",
+    "supertest": "^3.4.2"
   }
 }
